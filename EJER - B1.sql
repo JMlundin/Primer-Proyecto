@@ -1,0 +1,62 @@
+CREATE TABLE EMPLEADOS
+(
+	LegEmp integer NOT NULL,
+	Apellido varchar(30) NULL,
+	NrSuc integer NULL,
+	CONSTRAINT pk_empleados PRIMARY KEY (LegEmp)
+);
+
+CREATE TABLE CUENTAS
+(
+	NrCuenta integer NOT NULL,
+	Saldo money NULL,
+	DNI integer NULL,
+	NrSuc integer NULL,
+	CONSTRAINT pk_cuentas PRIMARY KEY (NrCuenta)
+);
+
+CREATE TABLE SUCURSALES
+(
+	NrSuc int NOT NULL,
+	Ciudad varchar(30),
+	CONSTRAINT pk_sucursales PRIMARY KEY (NrSuc)
+);
+
+CREATE TABLE CLIENTES
+(
+	DNI integer NOT NULL,
+	Apellido varchar(30) NULL,
+	Ciudad varchar(30) NULL,
+	CONSTRAINT pk_clientes PRIMARY KEY (DNI)
+);
+
+CREATE TABLE MOVIMIENTOS
+(
+	NrMov integer NOT NULL,
+	NrCuenta integer NULL,
+	Monto money NULL,
+	Fecha date NULL,
+	CONSTRAINT pk_movimientos PRIMARY KEY (NrMov)
+);
+
+
+
+ALTER TABLE EMPLEADOS
+ADD CONSTRAINT fk_empleados
+FOREIGN KEY (NrSuc)
+REFERENCES SUCURSALES(NrSuc);
+
+ALTER TABLE CUENTAS
+ADD CONSTRAINT fk_cuentas
+FOREIGN KEY (DNI)
+REFERENCES CLIENTES(DNI);
+
+ALTER TABLE CUENTAS
+ADD CONSTRAINT fk2_cuentas
+FOREIGN KEY (NrSuc)
+REFERENCES SUCURSALES(NrSuc);
+
+ALTER TABLE MOVIMIENTOS
+ADD CONSTRAINT fk_movimientos
+FOREIGN KEY (NrCuenta)
+REFERENCES CUENTAS(NrCuenta);
